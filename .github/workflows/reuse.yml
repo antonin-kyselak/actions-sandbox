@@ -1,0 +1,19 @@
+name: Reuse other workflow
+
+on: [workflow_dispatch]
+
+jobs:
+  call-workflow:
+    name: Greet the cat
+    uses: ./.github/workflows/reusable.yml
+    with:
+      who-to-greet: '@octocat'
+      
+  use-output:
+    name: Use greeting output
+    needs: [call-workflow]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Show greeting time
+        run: echo "Time was ${{ needs.call-workflow.outputs.current-time }}"
+    
